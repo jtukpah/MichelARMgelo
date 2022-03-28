@@ -5,10 +5,11 @@ Important codewords/keywords
 Robot Model: px150
 
 The following commands are how to create the interbotix workspace on you machine:
-$ sudo apt install curl
-$ curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh
-$ chmod +x xsarm_amd64_install.sh
-$ ./xsarm_amd64_install.sh
+
+* `$ sudo apt install curl`
+* `$ curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh`
+* `$ chmod +x xsarm_amd64_install.sh`
+* `$ ./xsarm_amd64_install.sh`
 
 
 After setting up the workspace remember to catkin_make/catkin build your interbotix_ws
