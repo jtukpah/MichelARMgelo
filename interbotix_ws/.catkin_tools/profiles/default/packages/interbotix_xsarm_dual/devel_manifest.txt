@@ -1,0 +1,5 @@
+interbotix_ros_manipulators/interbotix_ros_xsarms/examples/interbotix_xsarm_dual
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual/cmake.lock /home/river/interbotix_ws/devel/./cmake.lock
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual/share/interbotix_xsarm_dual/cmake/interbotix_xsarm_dualConfig.cmake /home/river/interbotix_ws/devel/share/interbotix_xsarm_dual/cmake/interbotix_xsarm_dualConfig.cmake
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual/share/interbotix_xsarm_dual/cmake/interbotix_xsarm_dualConfig-version.cmake /home/river/interbotix_ws/devel/share/interbotix_xsarm_dual/cmake/interbotix_xsarm_dualConfig-version.cmake
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual/lib/pkgconfig/interbotix_xsarm_dual.pc /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xsarm_dual.pc

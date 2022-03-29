@@ -1,0 +1,7 @@
+interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
+/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk/cmake.lock /home/river/interbotix_ws/devel/./cmake.lock
+/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk/share/interbotix_xs_sdk/cmake/interbotix_xs_sdkConfig.cmake /home/river/interbotix_ws/devel/share/interbotix_xs_sdk/cmake/interbotix_xs_sdkConfig.cmake
+/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk/share/interbotix_xs_sdk/cmake/interbotix_xs_sdkConfig-version.cmake /home/river/interbotix_ws/devel/share/interbotix_xs_sdk/cmake/interbotix_xs_sdkConfig-version.cmake
+/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk/lib/libinterbotix_xs_sdk.so /home/river/interbotix_ws/devel/lib/libinterbotix_xs_sdk.so
+/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk/lib/pkgconfig/interbotix_xs_sdk.pc /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xs_sdk.pc
+/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk/lib/interbotix_xs_sdk/xs_sdk /home/river/interbotix_ws/devel/lib/interbotix_xs_sdk/xs_sdk
