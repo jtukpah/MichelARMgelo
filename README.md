@@ -41,6 +41,10 @@ Below are the comands for disabling and renabling the torque, when the control v
 `$ rosservice call /px150/torque_enable "{cmd_type: 'group', name: 'all', enable: true}"`
 
 
-TODO: 
-Get the visualization for move it working properly then document the commands to run it. 
+Control and View The Robot using MoveIt in RVIZ
+This is a way to control and view the robot, when you are physically connected to it. This will allow you to be able to get the current joint state, as well as change the current joint state using sliders in a panel related to moveit. The sliders are on the left hand side of the rviz visualization and under the tab named Joints. 
+
+Below are the commands for pulling up the MoveIt visualization:
+
+$ roslaunch interbotix_xsarm_moveit xsarm_moveit.launch robot_model:=px150 use_actual:=true
 
