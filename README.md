@@ -46,5 +46,5 @@ This is a way to control and view the robot, when you are physically connected t
 
 Below are the commands for pulling up the MoveIt visualization:
 
-$ roslaunch interbotix_xsarm_moveit xsarm_moveit.launch robot_model:=px150 use_actual:=true
+`$ roslaunch interbotix_xsarm_moveit xsarm_moveit.launch robot_model:=px150 use_actual:=true
 
