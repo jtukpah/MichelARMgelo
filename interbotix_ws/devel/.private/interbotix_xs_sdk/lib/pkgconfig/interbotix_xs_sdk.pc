@@ -1,0 +1,8 @@
+prefix=/home/river/interbotix_ws/devel/.private/interbotix_xs_sdk
+
+Name: interbotix_xs_sdk
+Description: Description of interbotix_xs_sdk
+Version: 0.0.0
+Cflags: -I/home/river/interbotix_ws/src/interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk/include
+Libs: -L${prefix}/lib -linterbotix_xs_sdk
+Requires: interbotix_xs_msgs actionlib dynamixel_workbench_toolbox message_runtime roscpp sensor_msgs urdf

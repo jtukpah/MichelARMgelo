@@ -1,0 +1,4 @@
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xs_rviz/cmake/interbotix_xs_rvizConfig-version.cmake
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xs_rviz/cmake/interbotix_xs_rvizConfig.cmake
+Symlinking /home/river/interbotix_ws/devel/lib/libinterbotix_xs_rviz.so
+Symlinking /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xs_rviz.pc

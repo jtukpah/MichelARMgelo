@@ -1,0 +1,1 @@
+/home/river/interbotix_ws/devel/.private/interbotix_moveit_interface/share/roseus/ros/interbotix_moveit_interface/manifest.l

@@ -1,0 +1,4 @@
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_common_modules/cmake/interbotix_common_modulesConfig.cmake
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_common_modules/cmake/interbotix_common_modulesConfig-version.cmake
+Symlinking /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_common_modules.pc
+Symlinking /home/river/interbotix_ws/devel/lib/python2.7/dist-packages/interbotix_common_modules/__init__.py

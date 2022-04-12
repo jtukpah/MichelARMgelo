@@ -1,0 +1,1 @@
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_moveit_interface/share/interbotix_xsarm_moveit_interface/cmake/interbotix_xsarm_moveit_interfaceConfig-version.cmake

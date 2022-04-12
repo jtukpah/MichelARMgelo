@@ -1,0 +1,5 @@
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xsarm_diagnostic_tool/cmake/interbotix_xsarm_diagnostic_toolConfig-version.cmake
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xsarm_diagnostic_tool/cmake/interbotix_xsarm_diagnostic_toolConfig.cmake
+Symlinking /home/river/interbotix_ws/devel/lib/interbotix_xsarm_diagnostic_tool/xsarm_diagnostic_tool
+Symlinking /home/river/interbotix_ws/devel/lib/interbotix_xsarm_diagnostic_tool/xsarm_diagnostic_listener
+Symlinking /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xsarm_diagnostic_tool.pc

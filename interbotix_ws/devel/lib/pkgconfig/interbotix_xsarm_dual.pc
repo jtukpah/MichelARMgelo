@@ -1,0 +1,1 @@
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual/lib/pkgconfig/interbotix_xsarm_dual.pc

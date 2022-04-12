@@ -1,0 +1,8 @@
+prefix=/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual_joy
+
+Name: interbotix_xsarm_dual_joy
+Description: Description of interbotix_xsarm_dual_joy
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: interbotix_xsarm_control interbotix_xs_modules interbotix_xsarm_dual interbotix_xsarm_joy

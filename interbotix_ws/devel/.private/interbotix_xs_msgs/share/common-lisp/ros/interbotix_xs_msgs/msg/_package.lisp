@@ -1,0 +1,21 @@
+(cl:defpackage interbotix_xs_msgs-msg
+  (:use )
+  (:export
+   "<ARMJOY>"
+   "ARMJOY"
+   "<HEXJOY>"
+   "HEXJOY"
+   "<JOINTGROUPCOMMAND>"
+   "JOINTGROUPCOMMAND"
+   "<JOINTSINGLECOMMAND>"
+   "JOINTSINGLECOMMAND"
+   "<JOINTTEMPS>"
+   "JOINTTEMPS"
+   "<JOINTTRAJECTORYCOMMAND>"
+   "JOINTTRAJECTORYCOMMAND"
+   "<LOCOBOTJOY>"
+   "LOCOBOTJOY"
+   "<TURRETJOY>"
+   "TURRETJOY"
+  ))
+

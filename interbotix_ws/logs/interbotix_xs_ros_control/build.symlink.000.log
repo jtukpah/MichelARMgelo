@@ -1,0 +1,4 @@
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xs_ros_control/cmake/interbotix_xs_ros_controlConfig-version.cmake
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xs_ros_control/cmake/interbotix_xs_ros_controlConfig.cmake
+Symlinking /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xs_ros_control.pc
+Symlinking /home/river/interbotix_ws/devel/lib/interbotix_xs_ros_control/xs_hardware_interface

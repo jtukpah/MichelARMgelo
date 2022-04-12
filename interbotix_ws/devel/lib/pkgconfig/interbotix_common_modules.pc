@@ -1,0 +1,1 @@
+/home/river/interbotix_ws/devel/.private/interbotix_common_modules/lib/pkgconfig/interbotix_common_modules.pc

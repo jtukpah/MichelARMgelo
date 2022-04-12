@@ -1,0 +1,5 @@
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xs_sdk/cmake/interbotix_xs_sdkConfig.cmake
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xs_sdk/cmake/interbotix_xs_sdkConfig-version.cmake
+Symlinking /home/river/interbotix_ws/devel/lib/libinterbotix_xs_sdk.so
+Symlinking /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xs_sdk.pc
+Symlinking /home/river/interbotix_ws/devel/lib/interbotix_xs_sdk/xs_sdk

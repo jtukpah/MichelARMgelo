@@ -1,0 +1,8 @@
+prefix=/home/river/interbotix_ws/devel/.private/interbotix_moveit_interface
+
+Name: interbotix_moveit_interface
+Description: Description of interbotix_moveit_interface
+Version: 0.0.0
+Cflags: -I/home/river/interbotix_ws/devel/.private/interbotix_moveit_interface/include -I/home/river/interbotix_ws/src/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/include
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs message_runtime moveit_commander moveit_ros_planning_interface moveit_visual_tools roscpp rospy std_msgs tf

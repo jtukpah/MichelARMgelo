@@ -1,0 +1,1 @@
+/home/river/interbotix_ws/devel/.private/dynamixel_workbench_toolbox/lib/pkgconfig/dynamixel_workbench_toolbox.pc

@@ -1,0 +1,8 @@
+prefix=/home/river/interbotix_ws/devel/.private/interbotix_landmark_modules
+
+Name: interbotix_landmark_modules
+Description: Description of interbotix_landmark_modules
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs tf2_ros tf2_geometry_msgs visualization_msgs

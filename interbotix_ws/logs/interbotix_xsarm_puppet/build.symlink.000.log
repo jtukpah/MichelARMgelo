@@ -1,0 +1,5 @@
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xsarm_puppet/cmake/interbotix_xsarm_puppetConfig.cmake
+Symlinking /home/river/interbotix_ws/devel/share/interbotix_xsarm_puppet/cmake/interbotix_xsarm_puppetConfig-version.cmake
+Symlinking /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xsarm_puppet.pc
+Symlinking /home/river/interbotix_ws/devel/lib/interbotix_xsarm_puppet/xsarm_puppet_single
+Symlinking /home/river/interbotix_ws/devel/lib/interbotix_xsarm_puppet/xsarm_puppet

@@ -1,0 +1,8 @@
+prefix=/home/river/interbotix_ws/devel/.private/interbotix_common_modules
+
+Name: interbotix_common_modules
+Description: Description of interbotix_common_modules
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

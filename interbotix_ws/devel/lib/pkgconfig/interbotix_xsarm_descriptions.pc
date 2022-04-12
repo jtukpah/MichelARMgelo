@@ -1,0 +1,1 @@
+/home/river/interbotix_ws/devel/.private/interbotix_xsarm_descriptions/lib/pkgconfig/interbotix_xsarm_descriptions.pc

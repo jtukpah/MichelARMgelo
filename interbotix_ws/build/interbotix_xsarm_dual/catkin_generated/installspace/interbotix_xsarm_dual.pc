@@ -1,0 +1,8 @@
+prefix=/home/river/interbotix_ws/install
+
+Name: interbotix_xsarm_dual
+Description: Description of interbotix_xsarm_dual
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: interbotix_xsarm_control interbotix_xs_modules
