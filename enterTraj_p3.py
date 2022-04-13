@@ -9,13 +9,13 @@ def traj():
 
     
     traj = Float32MultiArray()                              #Store the two traj value as an array
-    print "How many points are in this trajectory?"
-    traj_length = int(float(raw_input()))                   #When reading in avalue from raw input, first convert to float and then convert to int. This accounts for the conversion from string to possible float, and then drops the extra value to turn it into an int
+    print("How many points are in this trajectory?")
+    traj_length = int(float(input()))                   #When reading in avalue from raw input, first convert to float and then convert to int. This accounts for the conversion from string to possible float, and then drops the extra value to turn it into an int
 
     for _ in range(traj_length):
-        print "Please enter your trajectory values with spaces inbetween"
-        trajectory = [float(n) for n in raw_input().split(" ")]
-        print trajectory
+        print("Please enter your trajectory values with spaces inbetween")
+        trajectory = [float(n) for n in input().split(" ")]
+        print(trajectory)
         traj.data += trajectory
     
     # print "Please enter your first  x coordinate"                  #Ask the user for an input x
