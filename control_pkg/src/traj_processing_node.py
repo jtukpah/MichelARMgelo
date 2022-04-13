@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This node will read a CSV file containing a trajectory, and will publish it one point at a time.
 
 import rospy
@@ -16,6 +18,7 @@ def send_trajectory(traj_file):
         msg = Vector3(x=vals[0], y=vals[1], z=vals[2])
         traj_pt_pub.publish(msg)
         # TODO may need to add a small sleep here.
+    # TODO make mode to loop through the file's trajectory to keep the arm moving.
 
 def main():
     global traj_pt_pub

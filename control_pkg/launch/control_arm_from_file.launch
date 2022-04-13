@@ -1,7 +1,8 @@
 <launch>
-<!-- Start up the arm's control driver. -->
- <!-- roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150 -->
-<include file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch" args="robot_model:=px150"/>
+<!-- First start up the arm's control driver. -->
+<!-- roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150 -->
+<!-- <include file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch" args="robot_model:=px150"/> -->
+
 <!-- Start up our control nodes. -->
 <node pkg="control_pkg" type="control_node.py" name="control_node" output="screen"/>
 <node pkg="control_pkg" type="traj_processing_node.py" name="traj_processing_node" output="screen"/>

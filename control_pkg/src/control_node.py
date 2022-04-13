@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This node will subscribe to trajectory messages, and send those to the robot arm.
 
 import rospy
@@ -10,15 +12,15 @@ Z_MIN = 0.1
 ###################################
 
 
-def command_arm(data):
+def command_arm(msg):
     """
     Receive a single point in a trajectory.
     Command the arm to go to this point, w/in constraints.
     @param data. Vector3 message.
     """
-    x = data.x
-    y = data.y
-    z = max(data.z, Z_MIN)
+    x = msg.x
+    y = msg.y
+    z = max(msg.z, Z_MIN)
     # send this command to the robot.
     bot.arm.set_ee_pose_components(x=x, y=y, z=z)
 
