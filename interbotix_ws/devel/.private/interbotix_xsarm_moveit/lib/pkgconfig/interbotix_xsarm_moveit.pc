@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/devel/.private/interbotix_xsarm_moveit
-
-Name: interbotix_xsarm_moveit
-Description: Description of interbotix_xsarm_moveit
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

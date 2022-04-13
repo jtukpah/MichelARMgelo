@@ -1,6 +1,0 @@
-interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_rviz
-/home/river/interbotix_ws/devel/.private/interbotix_xs_rviz/cmake.lock /home/river/interbotix_ws/devel/./cmake.lock
-/home/river/interbotix_ws/devel/.private/interbotix_xs_rviz/share/interbotix_xs_rviz/cmake/interbotix_xs_rvizConfig-version.cmake /home/river/interbotix_ws/devel/share/interbotix_xs_rviz/cmake/interbotix_xs_rvizConfig-version.cmake
-/home/river/interbotix_ws/devel/.private/interbotix_xs_rviz/share/interbotix_xs_rviz/cmake/interbotix_xs_rvizConfig.cmake /home/river/interbotix_ws/devel/share/interbotix_xs_rviz/cmake/interbotix_xs_rvizConfig.cmake
-/home/river/interbotix_ws/devel/.private/interbotix_xs_rviz/lib/libinterbotix_xs_rviz.so /home/river/interbotix_ws/devel/lib/libinterbotix_xs_rviz.so
-/home/river/interbotix_ws/devel/.private/interbotix_xs_rviz/lib/pkgconfig/interbotix_xs_rviz.pc /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xs_rviz.pc

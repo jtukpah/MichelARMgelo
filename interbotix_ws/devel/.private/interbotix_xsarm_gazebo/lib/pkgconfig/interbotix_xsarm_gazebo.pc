@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/devel/.private/interbotix_xsarm_gazebo
-
-Name: interbotix_xsarm_gazebo
-Description: Description of interbotix_xsarm_gazebo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: controller_manager effort_controllers gazebo_ros gazebo_ros_control interbotix_xsarm_descriptions joint_state_controller joint_trajectory_controller

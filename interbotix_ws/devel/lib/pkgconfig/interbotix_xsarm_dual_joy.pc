@@ -1,1 +1,0 @@
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_dual_joy/lib/pkgconfig/interbotix_xsarm_dual_joy.pc

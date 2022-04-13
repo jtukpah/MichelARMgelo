@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/install
-
-Name: interbotix_xs_rviz
-Description: Description of interbotix_xs_rviz
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,1 +1,0 @@
-/home/river/interbotix_ws/devel/.private/interbotix_xs_modules/lib/pkgconfig/interbotix_xs_modules.pc

@@ -1,5 +1,0 @@
-interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_gazebo
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_gazebo/cmake.lock /home/river/interbotix_ws/devel/./cmake.lock
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_gazebo/share/interbotix_xsarm_gazebo/cmake/interbotix_xsarm_gazeboConfig-version.cmake /home/river/interbotix_ws/devel/share/interbotix_xsarm_gazebo/cmake/interbotix_xsarm_gazeboConfig-version.cmake
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_gazebo/share/interbotix_xsarm_gazebo/cmake/interbotix_xsarm_gazeboConfig.cmake /home/river/interbotix_ws/devel/share/interbotix_xsarm_gazebo/cmake/interbotix_xsarm_gazeboConfig.cmake
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_gazebo/lib/pkgconfig/interbotix_xsarm_gazebo.pc /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xsarm_gazebo.pc

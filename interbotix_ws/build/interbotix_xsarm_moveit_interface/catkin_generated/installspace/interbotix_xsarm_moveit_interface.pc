@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/install
-
-Name: interbotix_xsarm_moveit_interface
-Description: Description of interbotix_xsarm_moveit_interface
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: interbotix_xsarm_moveit interbotix_moveit_interface

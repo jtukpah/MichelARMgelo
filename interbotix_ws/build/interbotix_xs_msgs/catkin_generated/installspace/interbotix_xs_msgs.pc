@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/install
-
-Name: interbotix_xs_msgs
-Description: Description of interbotix_xs_msgs
-Version: 0.0.1
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime std_msgs trajectory_msgs

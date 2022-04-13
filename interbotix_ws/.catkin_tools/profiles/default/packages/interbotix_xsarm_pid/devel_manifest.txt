@@ -1,6 +1,0 @@
-interbotix_ros_manipulators/interbotix_ros_xsarms/examples/interbotix_xsarm_pid
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_pid/cmake.lock /home/river/interbotix_ws/devel/./cmake.lock
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_pid/share/interbotix_xsarm_pid/cmake/interbotix_xsarm_pidConfig.cmake /home/river/interbotix_ws/devel/share/interbotix_xsarm_pid/cmake/interbotix_xsarm_pidConfig.cmake
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_pid/share/interbotix_xsarm_pid/cmake/interbotix_xsarm_pidConfig-version.cmake /home/river/interbotix_ws/devel/share/interbotix_xsarm_pid/cmake/interbotix_xsarm_pidConfig-version.cmake
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_pid/lib/pkgconfig/interbotix_xsarm_pid.pc /home/river/interbotix_ws/devel/lib/pkgconfig/interbotix_xsarm_pid.pc
-/home/river/interbotix_ws/devel/.private/interbotix_xsarm_pid/lib/interbotix_xsarm_pid/xsarm_pid /home/river/interbotix_ws/devel/lib/interbotix_xsarm_pid/xsarm_pid

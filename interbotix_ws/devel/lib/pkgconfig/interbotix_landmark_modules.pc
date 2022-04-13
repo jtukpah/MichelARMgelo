@@ -1,1 +1,0 @@
-/home/river/interbotix_ws/devel/.private/interbotix_landmark_modules/lib/pkgconfig/interbotix_landmark_modules.pc

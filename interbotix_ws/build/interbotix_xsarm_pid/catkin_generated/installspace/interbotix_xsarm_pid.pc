@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/install
-
-Name: interbotix_xsarm_pid
-Description: Description of interbotix_xsarm_pid
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: interbotix_xs_msgs interbotix_xsarm_control roscpp sensor_msgs

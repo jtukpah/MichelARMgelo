@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/devel/.private/interbotix_xsarm_diagnostic_tool
-
-Name: interbotix_xsarm_diagnostic_tool
-Description: Description of interbotix_xsarm_diagnostic_tool
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: interbotix_xs_msgs interbotix_xsarm_control rosbag roscpp rospy rqt_plot sensor_msgs

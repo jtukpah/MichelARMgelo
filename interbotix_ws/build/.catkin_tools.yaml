@@ -1,6 +1,0 @@
-devel_space: /home/river/interbotix_ws/devel
-install: false
-install_space: /home/river/interbotix_ws/install
-profile: default
-source_space: /home/river/interbotix_ws/src
-workspace: /home/river/interbotix_ws

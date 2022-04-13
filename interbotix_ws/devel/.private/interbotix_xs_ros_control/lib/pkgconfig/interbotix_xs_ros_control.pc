@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/devel/.private/interbotix_xs_ros_control
-
-Name: interbotix_xs_ros_control
-Description: Description of interbotix_xs_ros_control
-Version: 0.0.0
-Cflags: -I/home/river/interbotix_ws/src/interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_ros_control/include
-Libs: -L${prefix}/lib 
-Requires: controller_manager hardware_interface interbotix_xs_msgs joint_limits_interface joint_trajectory_controller roscpp

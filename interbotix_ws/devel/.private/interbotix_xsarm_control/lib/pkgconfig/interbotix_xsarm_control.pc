@@ -1,8 +1,0 @@
-prefix=/home/river/interbotix_ws/devel/.private/interbotix_xsarm_control
-
-Name: interbotix_xsarm_control
-Description: Description of interbotix_xsarm_control
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: interbotix_xs_sdk interbotix_xs_modules interbotix_xsarm_descriptions

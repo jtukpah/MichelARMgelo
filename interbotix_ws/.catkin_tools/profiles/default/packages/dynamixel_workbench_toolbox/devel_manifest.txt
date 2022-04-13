@@ -1,6 +1,0 @@
-interbotix_ros_core/interbotix_ros_xseries/dynamixel_workbench_toolbox
-/home/river/interbotix_ws/devel/.private/dynamixel_workbench_toolbox/cmake.lock /home/river/interbotix_ws/devel/./cmake.lock
-/home/river/interbotix_ws/devel/.private/dynamixel_workbench_toolbox/share/dynamixel_workbench_toolbox/cmake/dynamixel_workbench_toolboxConfig-version.cmake /home/river/interbotix_ws/devel/share/dynamixel_workbench_toolbox/cmake/dynamixel_workbench_toolboxConfig-version.cmake
-/home/river/interbotix_ws/devel/.private/dynamixel_workbench_toolbox/share/dynamixel_workbench_toolbox/cmake/dynamixel_workbench_toolboxConfig.cmake /home/river/interbotix_ws/devel/share/dynamixel_workbench_toolbox/cmake/dynamixel_workbench_toolboxConfig.cmake
-/home/river/interbotix_ws/devel/.private/dynamixel_workbench_toolbox/lib/libdynamixel_workbench_toolbox.so /home/river/interbotix_ws/devel/lib/libdynamixel_workbench_toolbox.so
-/home/river/interbotix_ws/devel/.private/dynamixel_workbench_toolbox/lib/pkgconfig/dynamixel_workbench_toolbox.pc /home/river/interbotix_ws/devel/lib/pkgconfig/dynamixel_workbench_toolbox.pc
