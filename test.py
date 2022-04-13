@@ -15,7 +15,7 @@ def callback(data):
     for i in range(len(data.data)//3):
         x= data.data[i*3]
         y= data.data[i*3+1]
-        z= data.data[i*3+2]
+        z= data.data[i*3+2]                                #TODO Since this is where Z is the singled out here is where the ZBound should be set
         bot.arm.set_ee_pose_components(x=x, y=y, z=z)      #See where this sends the end effector #value of x = 0.1 and z=0.1 returns an invalid positon
 
 def main():
