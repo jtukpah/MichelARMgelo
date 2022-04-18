@@ -29,9 +29,9 @@ def command_arm(msg):
     try:
         # send this command to the robot.
         bot.arm.set_ee_pose_components(x=x, y=y, z=z)
-        rospy.loginfo("Travelling to ", [x,y,z])
+        rospy.loginfo("Travelling to " + str([x,y,z]))
     except:
-        rospy.logerr("Cannot travel to ", [x,y,z], " from current position.")
+        rospy.logerr("Cannot travel to " + str([x,y,z]) + " from current position.")
 
 
 def read_constraints(constraints_file):

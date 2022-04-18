@@ -21,6 +21,11 @@ def send_trajectory(traj_file, loop:bool):
     @param traj_file: file object.
     @param loop: bool. True will repeat the traj forever.
     """
+    # don't start until constraints have been set.
+    while constraints is None:
+        rospy.sleep(0.05)
+    rospy.sleep(1)
+    # now the control node should be setup.
     lines = traj_file.readlines()
     r = rospy.Rate(0.5) # freq in Hz
     while not rospy.is_shutdown():
@@ -63,7 +68,7 @@ def read_constraints(constraints_file):
     for line in lines:
         params = line.split("=")
         constraints[params[0].strip()] = float(params[1].strip())
-    rospy.loginfo("Found constraints:",constraints)
+    rospy.loginfo("Found constraints:" + str(constraints))
 
 
 def main(mode:str):
@@ -92,10 +97,10 @@ def main(mode:str):
         # TODO subscribe to Float32MultiArray of points from 
         # a different node that has generated it directly, and 
         # forward those points along one at a time.
-        print("forward mode not yet implemented")
+        rospy.loginfo("forward mode not yet implemented")
         exit(0)
     else:
-        print("mode argument must be one of 'file', 'random', 'forward'.")
+        rospy.logerr("mode argument must be one of 'file', 'random', 'forward'.")
         exit(0)
     
     # pump callbacks.
