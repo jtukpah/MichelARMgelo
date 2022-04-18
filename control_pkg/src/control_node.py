@@ -7,8 +7,9 @@ from geometry_msgs.msg import Vector3
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 import rospkg
 
-########## CONSTRAINTS ############
+########## Global Variables ############
 constraints = None
+bot = None
 ###################################
 
 
@@ -25,9 +26,12 @@ def command_arm(msg):
     x = min(max(msg.x, constraints["X_MIN"]), constraints["X_MAX"])
     y = min(max(msg.y, constraints["Y_MIN"]), constraints["Y_MAX"])
     z = min(max(msg.z, constraints["Z_MIN"]), constraints["Z_MAX"])
-    # send this command to the robot.
-    bot.arm.set_ee_pose_components(x=x, y=y, z=z)
-    rospy.loginfo("Commanding ", [x,y,z])
+    try:
+        # send this command to the robot.
+        bot.arm.set_ee_pose_components(x=x, y=y, z=z)
+        rospy.loginfo("Travelling to ", [x,y,z])
+    except:
+        rospy.logerr("Cannot travel to ", [x,y,z], " from current position.")
 
 
 def read_constraints(constraints_file):
@@ -45,7 +49,7 @@ def read_constraints(constraints_file):
 
 def main():
     global bot
-    rospy.init_node('control_node')
+    # rospy.init_node('traj_control_node')
 
     try:
         # define the robot object.
