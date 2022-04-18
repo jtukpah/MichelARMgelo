@@ -57,7 +57,7 @@ def main():
         # set initial end effector position.
         bot.arm.set_ee_pose_components(x=0.3, y = 0.2, z=0.3)
         # close the gripper.
-        bot.gripper.close()
+        # bot.gripper.close()
     except:
         rospy.logerr("Unable to setup interbotix arm. Ensure the px150 arm is connected, and you have launched the drivers with\n\troslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150\nExiting control_node.")
         exit(0)

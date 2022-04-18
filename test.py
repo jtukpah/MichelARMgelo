@@ -26,7 +26,12 @@ def main():
     #bot.arm.set_ee_pose_components(x=0.3, y=-0.2, z=0.3)             #set the intial end effecotr position telling it to rise out of the holder
 
     #bot.arm.set_single_joint_position("waist", np.pi/2.0)    #rotate the waist so that it defiens a new positon
-    bot.gripper.close()                                       #Open/close the gripper
+    print(bot.gripper.gripper_value)
+    bot.gripper.open()
+    # bot.gripper.core.pub_single.publish('effort',100)
+    # bot.gripper.gripper_state(None) #250 = max open. -250 = max closed.
+    # bot.gripper.gripper_controller(-250.0,1.0)
+    #bot.gripper.close()                                   #Open/close the gripper
     
     rospy.Subscriber("traj", Float32MultiArray, callback)               #Other topic was traj
     rospy.loginfo("I'm being called")                                                #Starting the listener before the publisher means it should hopefully remain open while the publisher is called
