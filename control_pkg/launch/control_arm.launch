@@ -1,0 +1,11 @@
+<launch>
+<!-- Start up the arm's control driver before launching this. -->
+<!-- roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150 -->
+
+<!-- Usage: roslaunch control_arm.launch mode:="MODE" -->
+<arg name="mode"/>
+
+<!-- Start up our control nodes. -->
+<node pkg="control_pkg" type="control_node.py" name="control_node" output="screen"/>
+<node pkg="control_pkg" type="traj_processing_node.py" name="traj_processing_node" args="$(arg mode)" output="screen"/>
+</launch>
