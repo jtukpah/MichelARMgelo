@@ -1,0 +1,6 @@
+X_MIN = 0.05
+X_MAX = 0.3
+Y_MIN = -0.3
+Y_MAX = 0.3
+Z_MIN = 0.1
+Z_MAX = 0.3
