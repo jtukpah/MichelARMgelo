@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# This node will read a CSV file containing a trajectory, and will publish it one point at a time.
+# This node will find or generate a trajectory and publish it one point at a time.
 
 import rospy
 from geometry_msgs.msg import Vector3
