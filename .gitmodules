@@ -1,6 +1,6 @@
-[submodule "interbotix_ws/src/apriltag"]
+[submodule "apriltag"]
 	path = apriltag
 	url = git@github.com:AprilRobotics/apriltag.git
-[submodule "interbotix_ws/src/apriltag_ros"]
+[submodule "apriltag_ros"]
 	path = apriltag_ros
 	url = git@github.com:AprilRobotics/apriltag_ros.git
