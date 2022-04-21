@@ -76,18 +76,19 @@ def traj_circle(c, r):
     @param radius: float. radius of the circle to draw.
     """
     # set angle increment lower to increase roundness of circle.
-    ang_incr = pi/4
+    ang_incr = pi/6
     # go to first location with pen held up.
-    msg = Vector3(x = c[0]+r, y=0, z=constraints["Z_MIN"]+0.05)
+    msg = Vector3(x = c[0]+r, y=0, z=constraints["Z_MIN"]+0.1)
     traj_pt_pub.publish(msg)
     # draw the circle.
     for theta in np.arange(0, 2*pi+ang_incr, ang_incr):
-        msg.x = (c[0]+r)*cos(theta)
-        msg.y = (c[1]+r)*sin(theta)
+        msg.x = c[0]+r*cos(theta)
+        msg.y = c[1]+r*sin(theta)
         msg.z = constraints["Z_MIN"]
         traj_pt_pub.publish(msg)
+        # rospy.sleep(0.01)
     # pick up pen at same location it just ended at.
-    msg.z = constraints["Z_MIN"] + 0.05
+    msg.z = constraints["Z_MIN"] + 0.1
     traj_pt_pub.publish(msg)
 
 
@@ -96,13 +97,16 @@ def rand_circles():
     Create random circles.
     """
     # loop forever, sending new random positions.
-    rad_range = [0.02, 0.1]
+    rad_range = [0.03, 0.07]
     r = rospy.Rate(0.2) # freq in Hz
     while not rospy.is_shutdown():
-        center = [uniform(constraints["X_MIN"],constraints["X_MAX"]),
-                  uniform(constraints["Y_MIN"],constraints["Y_MAX"])]
+        # center = [uniform(constraints["X_MIN"],constraints["X_MAX"]),
+        #           uniform(constraints["Y_MIN"],constraints["Y_MAX"])]
+        center = [0.3, 0.0]
+        # radius = uniform(rad_range[0], rad_range[1])
+        radius = 0.03
         # make the circle with these params.
-        traj_circle(center, uniform(rad_range[0], rad_range[1]))
+        traj_circle(center, radius)
         # wait between sending points.
         r.sleep()
 
@@ -114,18 +118,18 @@ def traj_line(p1, p2):
     @param p1: Tuple containing (x,y) of first point.
     @param p2: Tuple containing (x,y) of second point.
     """
-    # go to first location with pen held up.
-    msg = Vector3(x=p1[0], y=p1[1], z=constraints["Z_MIN"]+0.05)
-    traj_pt_pub.publish(msg)
+    # # go to first location with pen held up.
+    # msg = Vector3(x=p1[0], y=p1[1], z=constraints["Z_MIN"]+0.05)
+    # traj_pt_pub.publish(msg)
     # put down pen.
     msg = Vector3(x=p1[0], y=p1[1], z=constraints["Z_MIN"])
     traj_pt_pub.publish(msg)
     # go to next pt with pen still down.
     msg = Vector3(x=p2[0], y=p2[1], z=constraints["Z_MIN"])
     traj_pt_pub.publish(msg)
-    # pick up pen.
-    msg = Vector3(x=p2[0], y=p2[1], z=constraints["Z_MIN"]+0.05)
-    traj_pt_pub.publish(msg)
+    # # pick up pen.
+    # msg = Vector3(x=p2[0], y=p2[1], z=constraints["Z_MIN"]+0.05)
+    # traj_pt_pub.publish(msg)
 
 
 def rand_lines():

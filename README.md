@@ -51,6 +51,30 @@ Below are the commands for pulling up the MoveIt visualization:
 
 ---
 
+# Running the Drawing Nodes
+We have setup the `control_pkg` with several scripts/nodes to control various parts of the arm. We assume this repository has been cloned into the `interbotix_ws/src` directory, and it is treated as a folder of packages. Prior to running anything in this section, build the interbotix workspace with `catkin_make_isolated`, and then startup the arm with `roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150`.
+
+In a new terminal, navigate to this repository.
+ - `cd ~/interbotix_ws/src/MichelARMgelo`
+
+There is a script for the gripper in which the user can manually enter effort values in the console to open and close the gripper with different force.
+ - `python3 control_pkg/src/control_gripper.py`
+
+There is a similar script for manually setting an end effector position that the arm will go to.
+ - `python3 control_pkg/src/control_arm.py`
+
+To run the arm with ROS, use our launch file, `control_arm.launch`. This will start `control_node.py` that instantiates the arm, and subscribes to published end effector positions, commanding the arm within constraints. Constraints can be specified in `control_pkg/config/constraints.txt`. The launch file will also run `traj_processing_node.py`. This node has several different modes, which must be specified on the command line when using the launch file.
+ - `roslaunch control_pkg control_arm.launch mode:=MODE`
+where `MODE` can be one of:
+ - `file`: execute the trajectory in `control_pkg/trajectories/traj1.csv`.
+ - `random`: send a random position within constraints on a loop.
+ - `circles`: draw circles of random size in random locations on a loop.
+ - `lines`: draw lines at random on a loop.
+ - `forward`: forward trajectories published from elsewhere. (not yet implemented)
+
+
+---
+
 # AprilTag Detection
 
 This section details necessary steps to detect AprilTags using an Intel RealSense D435 Depth Camera. The necessary submodules [apriltag](https://github.com/AprilRobotics/apriltag) and [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros) have been added to this repository as packages. These should not be modified. The `tag_detection_pkg` contains our tag configs, custom launch files, and custom node(s) specific to this project.

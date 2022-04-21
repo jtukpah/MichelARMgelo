@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
+# Script to manually control gripper position from console.
+
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 
 def main():
     # define the arm object.
     bot = InterbotixManipulatorXS("px150", "arm", "gripper")
     # set home pose.
-    bot.arm.set_ee_pose_components(x=0.3, y = 0.0, z=0.3)
+    bot.arm.set_ee_pose_components(x=0.3, y=0.0, z=0.3)
     # open all the way.
     bot.gripper.open()
     # loop and keep asking for new effort.

@@ -55,7 +55,7 @@ def main():
         # define the robot object.
         bot = InterbotixManipulatorXS("px150", "arm", "gripper")
         # set initial end effector position.
-        bot.arm.set_ee_pose_components(x=0.3, y = 0.2, z=0.3)
+        bot.arm.set_ee_pose_components(x=0.3, y = 0.0, z=0.3)
         # close the gripper.
         # bot.gripper.close()
     except:
