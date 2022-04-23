@@ -6,6 +6,7 @@ import rospy
 from geometry_msgs.msg import Vector3
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 import rospkg
+from math import sin, cos
 
 ########## Global Variables ############
 constraints = None
@@ -13,9 +14,9 @@ bot = None
 ###################################
 
 
-def command_arm(msg):
+def command_arm_cartesian(msg):
     """
-    Receive a single point in a trajectory.
+    Receive a single cartesian point in a trajectory.
     Command the arm to go to this point, w/in constraints.
     @param data. Vector3 message.
     """
@@ -29,9 +30,33 @@ def command_arm(msg):
     try:
         # send this command to the robot.
         bot.arm.set_ee_pose_components(x=x, y=y, z=z)
-        rospy.loginfo("Travelling to " + str([x,y,z]))
+        rospy.loginfo("Travelling to cartesian " + str([x,y,z]))
     except:
-        rospy.logerr("Cannot travel to " + str([x,y,z]) + " from current position.")
+        rospy.logerr("Cannot travel to cartesian " + str([x,y,z]) + " from current position.")
+
+
+def command_arm_polar(msg):
+    """
+    Receive a single polar point in a trajectory.
+    Command the arm to go to this point, w/in constraints.
+    @param data. Vector3 message with (r,theta,z).
+    """
+    # don't start until constraints have been set.
+    while constraints is None:
+        rospy.sleep(0.05)
+    # ensure command is within constraints.
+    r = min(max(msg.x, constraints["R_MIN"]), constraints["R_MAX"])
+    theta = min(max(msg.y, constraints["THETA_MIN"]), constraints["THETA_MAX"])
+    z = min(max(msg.z, constraints["Z_MIN"]), constraints["Z_MAX"])
+    # convert polar to cartesian.
+    x = r * cos(theta)
+    y = r * sin(theta)
+    try:
+        # send this command to the robot.
+        bot.arm.set_ee_pose_components(x=x, y=y, z=z)
+        rospy.loginfo("Travelling to polar " + str([r,theta,z]))
+    except:
+        rospy.logerr("Cannot travel to polar " + str([r,theta,z]) + " from current position.")
 
 
 def read_constraints(constraints_file):
@@ -70,7 +95,10 @@ def main():
     read_constraints(constraints_file)
     
     # subscribe to trajectory points.
-    rospy.Subscriber("/traj/point", Vector3, command_arm)
+    # cartesian:
+    rospy.Subscriber("/traj/point/cartesian", Vector3, command_arm_cartesian)
+    # polar:
+    rospy.Subscriber("/traj/point/polar", Vector3, command_arm_polar)
 
     # pump callbacks.
     rospy.spin()

@@ -12,7 +12,8 @@ from math import pi, sin, cos
 
 ####### GLOBAL VARIABLES #########
 constraints = None
-traj_pt_pub = None
+traj_pub_cartesian = None
+traj_pub_polar = None
 MODES = ["file","random","circles","lines","forward"]
 ##################################
 
@@ -45,7 +46,7 @@ def send_trajectory_from_file(traj_file, loop):
         for i in range(1, len(lines)):
             vals = [float(v) for v in lines[i].split(",")]
             msg = Vector3(x=vals[0], y=vals[1], z=vals[2])
-            traj_pt_pub.publish(msg)
+            traj_pub_cartesian.publish(msg)
             # sleep to publish at desired freq.
             r.sleep()
         if not loop: return
@@ -62,7 +63,7 @@ def randomize_trajectory():
         msg.x = uniform(constraints["X_MIN"],constraints["X_MAX"])
         msg.y = uniform(constraints["Y_MIN"],constraints["Y_MAX"])
         msg.z = uniform(constraints["Z_MIN"],constraints["Z_MAX"])
-        traj_pt_pub.publish(msg)
+        traj_pub_cartesian.publish(msg)
         # wait between sending points.
         r.sleep()
 
@@ -78,35 +79,47 @@ def traj_circle(c, r):
     # set angle increment lower to increase roundness of circle.
     ang_incr = pi/6
     # go to first location with pen held up.
-    msg = Vector3(x = c[0]+r, y=0, z=constraints["Z_MIN"]+0.1)
-    traj_pt_pub.publish(msg)
+    msg = Vector3(x = c[0]+r, y=c[1], z=constraints["Z_MIN"]+0.1)
+    traj_pub_cartesian.publish(msg)
     # draw the circle.
     for theta in np.arange(0, 2*pi+ang_incr, ang_incr):
         msg.x = c[0]+r*cos(theta)
         msg.y = c[1]+r*sin(theta)
         msg.z = constraints["Z_MIN"]
-        traj_pt_pub.publish(msg)
+        traj_pub_cartesian.publish(msg)
         # rospy.sleep(0.01)
     # pick up pen at same location it just ended at.
     msg.z = constraints["Z_MIN"] + 0.1
-    traj_pt_pub.publish(msg)
+    traj_pub_cartesian.publish(msg)
 
 
-def rand_circles():
+def rand_circles(use_polar=True):
     """
     Create random circles.
+    @param use_polar: bool. True will use polar instaad of cartesian.
     """
     # loop forever, sending new random positions.
     rad_range = [0.03, 0.07]
     r = rospy.Rate(0.2) # freq in Hz
     while not rospy.is_shutdown():
-        # center = [uniform(constraints["X_MIN"],constraints["X_MAX"]),
-        #           uniform(constraints["Y_MIN"],constraints["Y_MAX"])]
-        center = [0.3, 0.0]
-        # radius = uniform(rad_range[0], rad_range[1])
-        radius = 0.03
-        # make the circle with these params.
-        traj_circle(center, radius)
+        if not use_polar:
+            # center = [uniform(constraints["X_MIN"],constraints["X_MAX"]),
+            #           uniform(constraints["Y_MIN"],constraints["Y_MAX"])]
+            center = [0.3, 0.0]
+            # radius = uniform(rad_range[0], rad_range[1])
+            radius = 0.03
+            # make the circle with these params.
+            traj_circle(center, radius)
+        else:
+            # choose center position within polar constraints.
+            r0 = uniform(constraints["R_MIN"],constraints["R_MAX"])
+            th0 = uniform(constraints["THETA_MIN"],constraints["THETA_MAX"])
+            # get center in cartesian.
+            center = [r0*cos(th0), r0*sin(th0)]
+            # choose radius of circle to draw.
+            radius = uniform(rad_range[0], rad_range[1])
+            # make the circle.
+            traj_circle(center, radius)
         # wait between sending points.
         r.sleep()
 
@@ -120,16 +133,16 @@ def traj_line(p1, p2):
     """
     # # go to first location with pen held up.
     # msg = Vector3(x=p1[0], y=p1[1], z=constraints["Z_MIN"]+0.05)
-    # traj_pt_pub.publish(msg)
+    # traj_pub_cartesian.publish(msg)
     # put down pen.
     msg = Vector3(x=p1[0], y=p1[1], z=constraints["Z_MIN"])
-    traj_pt_pub.publish(msg)
+    traj_pub_cartesian.publish(msg)
     # go to next pt with pen still down.
     msg = Vector3(x=p2[0], y=p2[1], z=constraints["Z_MIN"])
-    traj_pt_pub.publish(msg)
+    traj_pub_cartesian.publish(msg)
     # # pick up pen.
     # msg = Vector3(x=p2[0], y=p2[1], z=constraints["Z_MIN"]+0.05)
-    # traj_pt_pub.publish(msg)
+    # traj_pub_cartesian.publish(msg)
 
 
 def rand_lines():
@@ -150,10 +163,11 @@ def rand_lines():
 
 
 def main(mode:str):
-    global traj_pt_pub
+    global traj_pub_cartesian, traj_pub_polar
     rospy.init_node('traj_processing_node')
-    # define publisher.
-    traj_pt_pub = rospy.Publisher('/traj/point', Vector3, queue_size=100)
+    # define publishers.
+    traj_pub_cartesian = rospy.Publisher('/traj/point/cartesian', Vector3, queue_size=100)
+    traj_pub_polar = rospy.Publisher('/traj/point/polar', Vector3, queue_size=100)
     # find the filepath to this package.
     rospack = rospkg.RosPack()
     pkg_path = rospack.get_path('control_pkg')
@@ -176,7 +190,7 @@ def main(mode:str):
         randomize_trajectory()
     elif mode == "circles":
         # keep generating random circles on loop.
-        rand_circles()
+        rand_circles(use_polar=True)
     elif mode == "lines":
         # keep generating random lines on loop.
         rand_lines()
