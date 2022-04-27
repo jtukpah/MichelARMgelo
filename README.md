@@ -92,3 +92,14 @@ This section details necessary steps to detect AprilTags using an Intel RealSens
  - OPTIONAL: `rviz` to open rviz. Click "Add", select "By topic", and choose "/camera/color/image_raw" Camera to see the RGB image, and/or "/camera/depth/image_rect_raw" Camera and DepthCloud to see the image with depth information, and this depth projected on the 3D vizualizer, respectively.
  - OPTIONAL: `rosrun rqt_image_view rqt_image_view` opens an image viewer that allows the image topic to be selected from all available. This is an easy way to see detected tags overlaid on the camera feed by selecting the "/tag_detections/image" topic.
  - OPTIONAL: `rosrun tf tf_monitor` can help determine names and connections between published TF frames.
+
+---
+
+# Checking AprilTag Detection Success
+Run the following commands, all in separate terminals in which you have sourced the interbotix workspace.
+ - roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150
+ - roslaunch tag_detection_pkg tag_detection.launch
+
+To control the arm with the terminal, run `python3 control_pkg/src/control_arm.py`. To manually move the physical arm around by hand, kill the torques with `rosservice call /px150/torque_enable "{cmd_type: 'group', name: 'all', enable: false}"`.
+
+Finally, view a live feed of AprilTag detections with `rosrun rqt_image_view rqt_image_view`, and changing the view to `/tag_detections_image`. You should also see the arm moving in rviz to mimick the physical arm.

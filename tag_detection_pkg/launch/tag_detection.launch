@@ -3,6 +3,7 @@
 <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
 <!-- Start up apriltag detection. Can change camera topic in continuous_detection.launch. -->
 <include file="$(find tag_detection_pkg)/launch/continuous_detection.launch" />
+
 <!-- Setup static TF transforms. -->
 <node pkg="tf" type="static_transform_publisher" name="base_camera_link" args="0.0 0.0 0.0 0 0 0 map camera_link 100" />
 <!-- TFs between static tags. Args = X Y Z Yaw Pitch Roll -->
