@@ -8,7 +8,28 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 
 FREE_CONTROL = False
 
+def triangle_on_sphere():
+    # define the arm object.
+    bot = InterbotixManipulatorXS("px150", "arm", "gripper")
+    # starting pose for circle.
+    last_pos = [0.4, 0.0, 0.1, 0.0, 0.7] # base of main arc
+    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    # first arc.
+    dx = -0.19; dz = 0.0756; dp = -0.8; dr = -0.5236
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    # across.
+    dx = 0.0; dz = 0.0; dp = 0; dr = 1.05
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    # back down.
+    dx = 0.15; dz = -0.0756; dp = 0.8; dr = -0.5236
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    
+
+
 def main():
+    triangle_on_sphere()
+    exit()
+
     # define the arm object.
     bot = InterbotixManipulatorXS("px150", "arm", "gripper")
     if FREE_CONTROL:
