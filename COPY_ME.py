@@ -2,6 +2,7 @@
 # ensure the indentation is correct for it to be included in the class.
 
     def set_ee_arc_trajectory(self, x=0.2, z=0.3, roll=0, pitch=0, yaw=0, moving_time=None, wp_moving_time=0.2, wp_accel_time=0.1, wp_period=0.05):
+        pen_offset = 0.055
         print("Usage: x = change in x, z = change in z, pitch = change in pitch")
         rpy = ang.rotationMatrixToEulerAngles(self.T_sb[:3,:3])
         T_sy = np.identity(4)
@@ -26,10 +27,9 @@
             if (i == N):
                 break
             # T_yb[:3,3] += [math.sin(i/N*math.pi/2) * x, inc * y, math.sin(i/N*math.pi/2) * z]
-            T_yb[:3,3] = [(x0+x) - x * math.cos(i/N*math.pi/2), 0, z0 + z*math.sin(i/N*math.pi/2)]
+            T_yb[:3,3] = [(x0+x) - x * math.cos(i/N*math.pi/2), 0, z0 + z*math.sin(i/N*math.pi/2) - pen_offset*(1 - math.cos(i/N * roll))]
             rpy[0] += inc * roll
             rpy[1] += inc * pitch
-            rpy[2] += inc * yaw
             T_yb[:3,:3] = ang.eulerAnglesToRotationMatrix(rpy)
             T_sd = np.dot(T_sy, T_yb)
             print("Planning to go to ", T_sd)
