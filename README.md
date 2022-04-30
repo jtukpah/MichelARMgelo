@@ -1,5 +1,9 @@
 # MichelARMgelo
-RSS group project, working with a interbotix 5DOF arm
+RSS group project, working with an interbotix 5DOF arm.
+
+**To run our code, you should first setup the interbotix_ws with the steps in the following section, and then clone this repository into interbotix_ws/src. This repository is treated as a folder of several ROS packages. After cloning the repo, return to interbotix_ws and run** `catkin_make_isolated`.
+
+---
 
 # PincherX-150 Manipulator Arm Setup
 
