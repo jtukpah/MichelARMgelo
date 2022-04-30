@@ -1,5 +1,5 @@
-# COPY THIS FUNCTION TO THE BOTTOM OF interbotix_ws/src/interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/arm.py.
-# ensure the indentation is correct for it to be included in the class.
+# COPY THE CONTENTS OF THIS FILE TO THE BOTTOM OF ~/interbotix_ws/src/interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/arm.py.
+# Ensure the indentation is correct for it to be included in the InterbotixArmXSInterface class.
 
     def set_ee_arc_trajectory(self, x=0.2, z=0.3, roll=0, pitch=0, yaw=0, moving_time=None, wp_moving_time=0.2, wp_accel_time=0.1, wp_period=0.05):
         pen_offset = 0.055

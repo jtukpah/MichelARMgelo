@@ -3,6 +3,7 @@
 # This node will subscribe to trajectory messages, and send those to the robot arm.
 
 import rospy
+from std_msgs.msg import Float32MultiArray
 from geometry_msgs.msg import Vector3
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 import rospkg
@@ -12,6 +13,24 @@ from math import sin, cos
 constraints = None
 bot = None
 ###################################
+
+
+def command_arm_relative_arc(msg):
+    """
+    Command the arm to make this motion relative to its current position.
+    @param data. Float32MultiArray message: [dx,dz,dr,dp]
+    """
+    # don't start until constraints have been set.
+    while constraints is None:
+        rospy.sleep(0.05)
+    # ensure command is within constraints.
+    dx = msg.data[0];  dz = msg.data[1]; dr = msg.data[2]; dp = msg.data[3]
+    try:
+        # send this command to the robot.
+        bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+        rospy.loginfo("Commanding relative arc motion " + str(msg.data))
+    except:
+        rospy.logerr("Cannot make relative arc motion " + str(msg.data) + " from current position.")
 
 
 def command_arm_cartesian(msg):
@@ -99,6 +118,8 @@ def main():
     rospy.Subscriber("/traj/point/cartesian", Vector3, command_arm_cartesian)
     # polar:
     rospy.Subscriber("/traj/point/polar", Vector3, command_arm_polar)
+    # relative arc:
+    rospy.Subscriber("/traj/point/relative", Float32MultiArray, command_arm_relative_arc)
 
     # pump callbacks.
     rospy.spin()
