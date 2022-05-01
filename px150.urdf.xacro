@@ -1,5 +1,5 @@
-<!-- file path home>user>workspace>src>interbotix_ros_manipulators>interbotix_ros_xsarms>interbotix_xsarm_descriptions>urdf>px150.urdf.xacro -->
 <?xml version="1.0"?>
+<!-- file path home>user>workspace>src>interbotix_ros_manipulators>interbotix_ros_xsarms>interbotix_xsarm_descriptions>urdf>px150.urdf.xacro -->
 <robot name="px150" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:arg name="robot_name" default = "px150"/>

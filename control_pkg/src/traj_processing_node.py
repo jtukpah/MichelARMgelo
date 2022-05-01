@@ -190,7 +190,7 @@ def main(mode:str):
         randomize_trajectory()
     elif mode == "circles":
         # keep generating random circles on loop.
-        rand_circles(use_polar=True)
+        rand_circles(use_polar=False)
     elif mode == "lines":
         # keep generating random lines on loop.
         rand_lines()

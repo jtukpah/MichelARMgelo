@@ -66,17 +66,21 @@ def free_control(bot):
 def triangle_on_sphere(bot):
     print("Running TRIANGLE ON SPHERE monotonic routine.")
     # set starting pose.
-    last_pos = [0.4, 0.0, 0.1, 0.0, 0.7] # base of main arc
+    last_pos = [0.4, 0.0, 0.11, 0.0, 0.7] # base of main arc
     bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
     # first arc.
-    dx = -0.19; dz = 0.0756; dr = -0.5236; dp = -0.8
+    dx = -0.18; dz = 0.0756; dr = -0.5236; dp = -0.8
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # across.
     dx = 0.0; dz = 0.0; dr = 1.05; dp = 0
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # back down.
-    dx = 0.15; dz = -0.0756; dr = -0.5236; dp = 0.8
+    dx = 0.16; dz = -0.0756; dr = -0.8; dp = 0.8
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # return to home position.
+    last_pos = [0.1, 0.0, 0.3, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+
 
 
 def triangle_on_sphere_geodesic(bot):
@@ -90,25 +94,57 @@ def triangle_on_sphere_geodesic(bot):
     bot.arm.set_ee_geodesic_trajectory((0.0, 0.0, 0.0, 1.05, 0.0), C, R, PEN_OFFSET)
     # back down.
     bot.arm.set_ee_geodesic_trajectory((0.15, 0.0, -0.0756, -0.5236, 0.8), C, R, PEN_OFFSET)
+    # return to home position.
+    last_pos = [0.2, 0.0, 0.2, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
     
 
 def square_on_paper(bot):
     print("Running SQUARE ON PAPER routine.")
-    # set starting pose (top left corner).
-    last_pos = [0.3, 0.0, 0.1, 0.5236, 0.1] # base of main arc
+    # set starting pose (bottom left corner).
+    last_pos = [0.35, 0.0, 0.08, 0.0, 0.0] # base of main arc
     bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
-    # top edge.
-    dx = 0.0; dz = 0.0; dp = 0.0; dr = 1.05
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
-    # right edge.
-    dx = -0.2; dz = 0.0; dp = 0; dr = 0.0
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
     # bottom edge.
-    dx = 0.0; dz = 0.0; dp = 0.0; dr = -1.05
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
+    dx = 0.0; dz = 0.0; dp = 0.0; dr = 0.5
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # right edge.
+    dx = 0.1; dz = 0.0; dp = 0.01; dr = 0.0
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # top edge.
+    dx = 0.0; dz = 0.0; dp = 0.0; dr = -1
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # left edge.
-    dx = 0.2; dz = 0.0; dp = 0; dr = 0.0
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
+    dx = -0.1; dz = 0.0; dp = -0.01; dr = 0.0
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # return to home position.
+    last_pos = [0.35, 0.0, 0.2, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    
+
+
+def diamond_on_paper(bot):
+    print("Running DIAMOND ON PAPER routine.")
+    # set starting pose (bottom center).
+    last_pos = [0.35, 0.0, 0.14, 0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    # down
+    dx = 0.0; dz = -0.05; dp = 0.0; dr = 0.0
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # left
+    dx = 0.03; dz = 0.0; dp = 0.0; dr = -0.7
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # top
+    dx = 0.03; dz = -0.01; dp = 0.01; dr = 0.7
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # right
+    dx = -0.05; dz = 0.0; dp = 0.0; dr = 0.7
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # bottom
+    dx = -0.05; dz = 0.01; dp = -0.01; dr = -0.7
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # return to home position.
+    last_pos = [0.2, 0.0, 0.2, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
     
 
 def main():
@@ -119,7 +155,8 @@ def main():
     functions = {0 : free_control,
                  1 : triangle_on_sphere,
                  2 : triangle_on_sphere_geodesic,
-                 3 : square_on_paper}
+                 3 : square_on_paper,
+                 4 : diamond_on_paper}
 
     mode = 0
     try:
