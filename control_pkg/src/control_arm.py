@@ -7,6 +7,15 @@
 import sys
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 
+######### GLOBAL VARIABLES ###########
+# offset of pen tip from original gripper location.
+PEN_OFFSET = 0.055
+# center position of sphere in arm's coordinate frame.
+C = (0.21, 0.0, 0.1)
+# radius of sphere in meters.
+R = 0.19
+######################################
+
 
 def free_control(bot):
     print("Running in FREE CONTROL mode.")
@@ -55,19 +64,32 @@ def free_control(bot):
 
 
 def triangle_on_sphere(bot):
-    print("Running TRIANGLE ON SPHERE routine.")
+    print("Running TRIANGLE ON SPHERE monotonic routine.")
     # set starting pose.
     last_pos = [0.4, 0.0, 0.1, 0.0, 0.7] # base of main arc
     bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
     # first arc.
-    dx = -0.19; dz = 0.0756; dp = -0.8; dr = -0.5236
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    dx = -0.19; dz = 0.0756; dr = -0.5236; dp = -0.8
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # across.
-    dx = 0.0; dz = 0.0; dp = 0; dr = 1.05
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    dx = 0.0; dz = 0.0; dr = 1.05; dp = 0
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # back down.
-    dx = 0.15; dz = -0.0756; dp = 0.8; dr = -0.5236
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    dx = 0.15; dz = -0.0756; dr = -0.5236; dp = 0.8
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+
+
+def triangle_on_sphere(bot):
+    print("Running TRIANGLE ON SPHERE geodesic routine.")
+    # set starting pose.
+    pos = [0.4, 0.0, 0.1, 0.0, 0.7] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
+    # first arc.
+    bot.arm.set_ee_geodesic_trajectory((-0.19, 0.0, 0.0756, -0.5236, -0.8), C, R, PEN_OFFSET)
+    # across.
+    bot.arm.set_ee_geodesic_trajectory((0.0, 0.0, 0.0, 1.05, 0.0), C, R, PEN_OFFSET)
+    # back down.
+    bot.arm.set_ee_geodesic_trajectory((0.15, 0.0, -0.0756, -0.5236, 0.8), C, R, PEN_OFFSET)
     
 
 def square_on_paper(bot):
@@ -77,16 +99,16 @@ def square_on_paper(bot):
     bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
     # top edge.
     dx = 0.0; dz = 0.0; dp = 0.0; dr = 1.05
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
     # right edge.
     dx = -0.2; dz = 0.0; dp = 0; dr = 0.0
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
     # bottom edge.
     dx = 0.0; dz = 0.0; dp = 0.0; dr = -1.05
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
     # left edge.
     dx = 0.2; dz = 0.0; dp = 0; dr = 0.0
-    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+    bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr, PEN_OFFSET=PEN_OFFSET)
     
 
 def main():
