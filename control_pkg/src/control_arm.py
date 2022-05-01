@@ -11,9 +11,9 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 # offset of pen tip from original gripper location.
 PEN_OFFSET = 0.055
 # center position of sphere in arm's coordinate frame.
-C = (0.21, 0.0, 0.1)
+C = (0.21, 0.0, 0.0)
 # radius of sphere in meters.
-R = 0.19
+R = 0.115
 ######################################
 
 
@@ -79,7 +79,7 @@ def triangle_on_sphere(bot):
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
 
 
-def triangle_on_sphere(bot):
+def triangle_on_sphere_geodesic(bot):
     print("Running TRIANGLE ON SPHERE geodesic routine.")
     # set starting pose.
     pos = [0.4, 0.0, 0.1, 0.0, 0.7] # base of main arc
@@ -118,7 +118,8 @@ def main():
     # choose function based on cmd line param.
     functions = {0 : free_control,
                  1 : triangle_on_sphere,
-                 2 : square_on_paper}
+                 2 : triangle_on_sphere_geodesic,
+                 3 : square_on_paper}
 
     mode = 0
     try:

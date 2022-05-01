@@ -26,11 +26,9 @@ from scipy.spatial.transform import Rotation as R
 ############ GLOBAL VARIABLES ###################
 DT = 1 # timer period.
 
-# one tag will be used as global origin.
-ORIGIN_TAG_ID = 0 
-# other tags are static relative to origin tag, and can be used to identify it.
-STATIC_TAG_IDS = [0, 1, 2, 3]
-# NOTE: look into actually publishing static transforms between the stationary tags.
+# global origin = arm coordinate frame.
+# some tags are static relative to origin, and can be used to identify it.
+STATIC_TAG_IDS = [0, 1]
 
 # dictionary of tag poses relative to camera, keyed by tag ID.
 static_tags = {}
@@ -42,6 +40,32 @@ tf_buffer = None
 TF_ORIGIN = 'map'
 TF_CAMERA = 'camera_link'
 ##########################################
+"""
+KNOWN CORRESPONDANCES:
+Arm coordinate frame origin <-> Tag 0.
+Tag 0 <-> Tag 1. On canvas.
+Tag 8 <-> Tag 9. On arm.
+Tag 8/9 <-> EE default pos.
+EE default pos <-> Pen tip. (know using current roll)
+
+UNKNOWN CORRESPONDANCES:
+Tag 8/9 <-> Tag 0. Determine with this node.
+Camera <-> all other frames. Not needed.
+
+WANT:
+Pen tip <-> arm origin.
+"""
+########## Detected TFs #################
+# notation: T_01 = transform from tag 0 to tag 1.
+TFs = {'T_0A' : None, # get from tf tree. A = arm origin frame.
+       'T_01' : None, # get from tf tree.
+       'T_89' : None, # get from tf tree.
+       'T_C0' : None, # detect once. C = camera frame.
+       'T_C8' : None, # detect every time.
+       'T_E8' : None, # get from tf tree. E = end effector default.
+       'T_PE' : None, # use roll to determine. P = pen tip.
+       'T_PA' : None} # end result.
+#########################################
 
 
 def get_tag_detection(tag_msg):
@@ -69,6 +93,8 @@ def get_tag_detection(tag_msg):
                         [r[2][0],r[2][1],r[2][2],t[2]],
                         [0,0,0,1]])
         
+        # set the transform.
+
         # if this is a static tag that has already been detected, ignore it.
         if tag_id in static_tags.keys(): continue
         # if this is a static tag being detected for the first time, update all static tag poses.
