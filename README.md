@@ -1,11 +1,105 @@
 # MichelARMgelo
-RSS group project, working with an interbotix 5DOF arm.
+Group project for EECE-5335 Robotic Science & Systems at Northeastern University.
 
-**To run our code, you should first setup the interbotix_ws with the steps in the following section, and then clone this repository into interbotix_ws/src. This repository is treated as a folder of several ROS packages. After cloning the repo, return to interbotix_ws and run** `catkin_make_isolated`.
+Team consists of Kevin Robb, James Tukpah, Ricky Kaufman, and Michael Carvajal.
+
+We are working with an interbotix PincherX 150 5DOF arm, as well as a RealSense D435 camera. Slight modifications to terminal commands and our launch files should allow this to work on a variety of monocular RGB cameras and interbotix arms.
+
+# Quick Start 
+## Full Setup
+Run the following commands to fully setup our project on your machine. We assume you have a machine running Ubuntu 20.04 with ROS Noetic installed, as well as any dependencies for AprilTags, such as OpenCV2.
+
+First install `interbotix_ws`, the workspace that holds everything related to the robot arm.
+
+    cd ~
+    sudo apt install curl
+    curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.s
+    chmod +x xsarm_amd64_install.sh
+    ./xsarm_amd64_install.sh
+
+Now clone our repository into the `src` directory and ensure the AprilTag submodules are setup correctly. This repo will be treated as a folder of several ROS packages.
+
+    cd ~/interbotix_ws/src
+    git clone git@github.com:jtukpah/MichelARMgelo.git
+    cd MichelARMgelo
+    git submodule init
+    git submodule update
+    cd ../..
+    catkin_make_isolated
+
+Add a line near the bottom of your `.bashrc` to source this repository automatically in every new terminal.
+ - Open the file with `nano ~/.bashrc`.
+ - Add this to the end: `source /home/kevin-robb/interbotix_ws/devel_isolated/setup.bash`
+ - You may see a similar line containing `devel` rather than `devel_isolated`. You can remove this line.
+ - Restart your terminal or run `source ~/.bashrc` to ensure this is updated.
+
+## Running Our Scripts to Control the Arm
+Ensure the arm is connected to power and to your machine. Start it up to receive control commands by running
+
+    roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150
+
+For testing and for simple maneuvers, we've made some simple python scripts that are quick and easy to run. In a new terminal, run
+
+    cd ~/interbotix_ws/src/MichelARMgelo
+    python3 control_pkg/src/control_arm.py <MODE>
+
+where `<MODE>` is an integer that will set which function in the `control_arm.py` script will be run. Mode 0 will prompt the user on a loop for a pose "x y z" or "x y z r p"; you can also control only a single component, i.e., "r 0.1", which will be adjusted while maintaining all other components at their current values. All other modes run predefined routines, such as mode 1 drawing a triangle on the spherical canvas and mode 3 drawing a square on the flat canvas. See the function dictionary in the script's `main()` function for a full up-to-date list of routines.
+
+We also have a small script to open and close the gripper with different effort values.
+
+    python3 control_pkg/src/control_gripper.py
+
+## Testing AprilTag Detection
+This section details necessary steps to detect AprilTags using an Intel RealSense D435 Depth Camera. The necessary submodules [apriltag](https://github.com/AprilRobotics/apriltag) and [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros) have been added to this repository as packages. These should not be modified. The `tag_detection_pkg` contains our tag configs, custom launch files, and custom node(s) specific to this project.
+
+Setup:
+ - Install the ROS wrapper for the RealSense D435 depth camera to your system: `sudo apt-get install ros-$ROS_DISTRO-realsense2-camera`. Note: Using the standard usb_cam package did not work for this camera, and made all images display depth info as green, and nothing else.
+ - Set details of tags to search for in `tag_detection_pkg/config/tags.yaml`. We use the default tag family 36h11, but the specific IDs and real-world sizes of our tags must be specified in the "standalone_tags" section.
+ - If the camera images aren't showing up, the `realsense-viewer` utility may be useful. This application starts an interface with the D435 camera that allows settings to be changed, firmware to be updated, and the RGB live feed to be previewed. If the camera feed doesn't show up, you likely need to install the proper drivers for your machine, or perform a firmware update on the camera.
+ - The camera may need to be calibrated if AprilTag detections are incorrect or missing.
+
+We've included the necessary steps to launch the RealSense ROS wrapper and AprilTag detection in our `tag_detection_pkg`, so simply ensure the RealSense D435 camera is connected to your machine and run the following command. This launch file also sets up several tf links. 
+
+    roslaunch tag_detection_pkg tag_detection.launch
+
+You can then open a new terminal and enter the following command to preview detected AprilTags overlaid on the camera feed. Ensure you change the topic in the upper dropdown menu to `/tag_detections_image`.
+
+    rosrun rqt_image_view rqt_image_view
+
+To check the relationships between detected tags and other frames, you can run `rviz` or `rosrun tf tf_monitor`. To see the camera feed in rviz, click "Add", select "By topic", and choose one of:
+ - "/camera/color/image_raw" -> Camera to see the RGB image.
+ - "/camera/depth/image_rect_raw" -> Camera to see the image with depth information.
+ - "/camera/depth/image_rect_raw" -> DepthCloud to see depth information projected on the 3D vizualizer.
+
+This can run concurrently with the previous section to control the arm, or you can kill the joint torques and move it around yourself with
+
+    rosservice call /px150/torque_enable "{cmd_type: 'group', name: 'all', enable: false}"
+
+## Running Our ROS Architecture
+For our full project, start up all our custom nodes. In two terminals, run the following:
+
+    roslaunch control_pkg control_arm.launch mode:=<MODE>
+    roslaunch tag_detection_pkg tag_detection.launch
+
+The `tag_detection_node` will use the camera to determine the position of the canvas relative to the arm's coordinate frame, and will also estimate the end effector's pose via the attached AprilTags; this is important for drawing smooth arcs on the surface of our spherical canvas. The `traj_processing_node` will read or generate trajectories, and publish them one step at a time. The `control_node` subscribes to these trajectory points, ensures they fit within our constraints, and sends the actual commands to the robot to move. Here `<MODE>` is a string that specifies what sorts of trajectories will be sent to the arm to perform. It can be one of:
+ - `file`: execute the trajectory in `control_pkg/trajectories/traj1.csv`.
+ - `random`: send a random position within constraints on a loop.
+ - `circles`: draw circles of random size in random locations on a loop.
+ - `lines`: draw lines at random on a loop.
+ - `forward`: forward trajectories published from elsewhere. (not yet implemented)
+
+Constraints can be edited in `control_pkg/config/constraints.txt`.
+
+---
+
+That's all! Thanks for checking out our project. A video montage of our progress and results is available [on YouTube](https://www.youtube.com/watch?v=guDpAhEtJ5c)! Our slides and written report are also included in this repository. 
+
+<!-- TODO embed video if possible, or even just GIF of triangle being drawn. -->
 
 ---
 
 # PincherX-150 Manipulator Arm Setup
+This section details installation and some functionality of the PincherX 150 arm, unrelated to any code we've written for the project.
 
 ## Important codewords/keywords
 Robot Model: px150
@@ -52,58 +146,3 @@ This is a way to control and view the robot, when you are physically connected t
 Below are the commands for pulling up the MoveIt visualization:
 
 `$ roslaunch interbotix_xsarm_moveit xsarm_moveit.launch robot_model:=px150 use_actual:=true`
-
----
-
-# Running the Drawing Nodes
-We have setup the `control_pkg` with several scripts/nodes to control various parts of the arm. We assume this repository has been cloned into the `interbotix_ws/src` directory, and it is treated as a folder of packages. Prior to running anything in this section, build the interbotix workspace with `catkin_make_isolated`, and then startup the arm with `roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150`.
-
-In a new terminal, navigate to this repository.
- - `cd ~/interbotix_ws/src/MichelARMgelo`
-
-There is a script for the gripper in which the user can manually enter effort values in the console to open and close the gripper with different force.
- - `python3 control_pkg/src/control_gripper.py`
-
-There is a similar script for manually setting an end effector position that the arm will go to.
- - `python3 control_pkg/src/control_arm.py`
-
-To run the arm with ROS, use our launch file, `control_arm.launch`. This will start `control_node.py` that instantiates the arm, and subscribes to published end effector positions, commanding the arm within constraints. Constraints can be specified in `control_pkg/config/constraints.txt`. The launch file will also run `traj_processing_node.py`. This node has several different modes, which must be specified on the command line when using the launch file.
- - `roslaunch control_pkg control_arm.launch mode:=MODE`
-where `MODE` can be one of:
- - `file`: execute the trajectory in `control_pkg/trajectories/traj1.csv`.
- - `random`: send a random position within constraints on a loop.
- - `circles`: draw circles of random size in random locations on a loop.
- - `lines`: draw lines at random on a loop.
- - `forward`: forward trajectories published from elsewhere. (not yet implemented)
-
-
----
-
-# AprilTag Detection
-
-This section details necessary steps to detect AprilTags using an Intel RealSense D435 Depth Camera. The necessary submodules [apriltag](https://github.com/AprilRobotics/apriltag) and [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros) have been added to this repository as packages. These should not be modified. The `tag_detection_pkg` contains our tag configs, custom launch files, and custom node(s) specific to this project.
-
-## Setup
- - First, install the ROS wrapper for the RealSense D435 depth camera to your system: `sudo apt-get install ros-$ROS_DISTRO-realsense2-camera`. Note: Using the standard usb_cam package did not work for this camera, and made all images display depth info as green, and nothing else.
- - Clone this repository if you haven't already, and ensure the `apriltag` and `apriltag_ros` submodules have their contents downloaded with the commands `git submodule init` and `git submodule update`.
- - In the workspace directory, run `catkin_make_isolated` to build the ROS workspace.
- - Set details of tags to search for in `tag_detection_pkg/config/tags.yaml`. We use the default tag family 36h11, but the specific IDs and real-world sizes of our tags must be specified in the "standalone_tags" section.
- - If the camera images aren't showing up, the `realsense-viewer` utility may be useful. This application starts an interface with the D435 camera that allows settings to be changed, firmware to be updated, and the RGB live feed to be previewed. If the camera feed doesn't show up, you likely need to install the proper drivers for your machine, or perform a firmware update on the camera.
- - The camera may need to be calibrated for apriltag detection.
-
-## Running it
- - `roslaunch tag_detection_pkg tag_detection.launch` will startup the camera's ROS driver, the apriltag detection, and set all specified static tag transforms. This sets the camera's base tf frame to `camera_link`, and several ROS messages are published to topics beginning with "/camera/...". The default fixed frame in rviz is `map`, so we set this equal to the camera frame (for now). 
- - OPTIONAL: `rviz` to open rviz. Click "Add", select "By topic", and choose "/camera/color/image_raw" Camera to see the RGB image, and/or "/camera/depth/image_rect_raw" Camera and DepthCloud to see the image with depth information, and this depth projected on the 3D vizualizer, respectively.
- - OPTIONAL: `rosrun rqt_image_view rqt_image_view` opens an image viewer that allows the image topic to be selected from all available. This is an easy way to see detected tags overlaid on the camera feed by selecting the "/tag_detections/image" topic.
- - OPTIONAL: `rosrun tf tf_monitor` can help determine names and connections between published TF frames.
-
----
-
-# Checking AprilTag Detection Success
-Run the following commands, all in separate terminals in which you have sourced the interbotix workspace.
- - roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150
- - roslaunch tag_detection_pkg tag_detection.launch
-
-To control the arm with the terminal, run `python3 control_pkg/src/control_arm.py`. To manually move the physical arm around by hand, kill the torques with `rosservice call /px150/torque_enable "{cmd_type: 'group', name: 'all', enable: false}"`.
-
-Finally, view a live feed of AprilTag detections with `rosrun rqt_image_view rqt_image_view`, and changing the view to `/tag_detections_image`. You should also see the arm moving in rviz to mimick the physical arm.

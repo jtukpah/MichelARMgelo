@@ -19,7 +19,7 @@
         joint_positions = list(self.joint_commands)
         # starting (current) position.
         x0 = T_yb[0][3]; z0 = T_yb[2][3]
-        print("Currently at ",x0 ,z0)
+        # print("Currently at ",x0 ,z0)
         for i in range(N+1):
             joint_traj_point = JointTrajectoryPoint()
             joint_traj_point.positions = joint_positions
@@ -33,7 +33,7 @@
             rpy[1] += inc * dp
             T_yb[:3,:3] = ang.eulerAnglesToRotationMatrix(rpy)
             T_sd = np.dot(T_sy, T_yb)
-            print("Planning to go to ", T_sd)
+            # print("Planning to go to ", T_sd)
             theta_list, success = self.set_ee_pose_matrix(T_sd, joint_positions, False, blocking=False)
             if success:
                 joint_positions = theta_list
@@ -64,7 +64,7 @@
     # @param D - desired changes (dx, dy, dz, dr, dp) to each coordinate in meters or radians.
     # @param C - center point (cx, cy, cz) of sphere in meters in arm's coordinate frame.
     # @param R - radius of sphere in meters.
-    def set_ee_geodesic_trajectory(self, D=(0.2, 0.0, 0.1, 0.0, 0.0), C=(0.2, 0.0, 0.0), R=0.19, PEN_OFFSET = 0.055, moving_time=None, wp_moving_time=0.2, wp_accel_time=0.1, wp_period=0.05):
+    def set_ee_geodesic_trajectory(self, D=(0.2, 0.0, 0.1, 0.0, 0.0), C=(0.2, 0.0, 0.0), R=0.11, PEN_OFFSET = 0.055, moving_time=None, wp_moving_time=0.2, wp_accel_time=0.1, wp_period=0.05):
         # Setup stuff from set_ee_cartesian_trajectory.
         rpy = ang.rotationMatrixToEulerAngles(self.T_sb[:3,:3])
         T_sy = np.identity(4)
@@ -109,13 +109,13 @@
             vec = [sl_pos[i]-C[i] for i in range(3)]; 
             # print("Vec is "+str(vec))
             vec = vec / sum([vec[i]**2 for i in range(3)])**(1/2)
-            # print("Unit vec is "+str(vec))
+            print("Unit vec is "+str(vec))
             #  - project distance to R and set this position.
             T_yb[:3,3] = C + vec*R
             print("Next position is "+str(T_yb[:3,3]))
             #  - offset Z using roll to keep contact with sphere.
             T_yb[2,3] -= PEN_OFFSET*(1 - math.cos(i/N * D[3]))
-            print("Next position is "+str(T_yb[:3,3])+" after pen agle offset.")
+            print("Next position is "+str(T_yb[:3,3])+" after pen angle offset.")
             # Linearly interpolate orientation.
             rpy[0] += inc * D[3] #dr
             rpy[1] += inc * D[4] #dp

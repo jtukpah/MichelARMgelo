@@ -11,7 +11,7 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 # offset of pen tip from original gripper location.
 PEN_OFFSET = 0.055
 # center position of sphere in arm's coordinate frame.
-C = (0.21, 0.0, 0.0)
+C = (0.21, 0.0, 0.1)
 # radius of sphere in meters.
 R = 0.115
 ######################################
@@ -25,6 +25,10 @@ def free_control(bot):
     # loop and keep asking for new pose.
     print("Enter E.E. position ('x y z') or single component (e.g. 'x 0.1').")
     print("Possible components: x, y, z, r, p.")
+
+    # Test of set_ee_cartesian_trajectory function. found good values:
+    # bot.arm.set_ee_cartesian_trajectory(x=0.1, z=0.1, roll=0, pitch=0, moving_time=2, wp_moving_time=0.2, wp_accel_time=0.1, wp_period=0.1)
+    
     while True:
         try:
             line = input("Position: ").split(" ")
@@ -66,8 +70,8 @@ def free_control(bot):
 def triangle_on_sphere(bot):
     print("Running TRIANGLE ON SPHERE monotonic routine.")
     # set starting pose.
-    last_pos = [0.4, 0.0, 0.11, 0.0, 0.7] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.4, 0.0, 0.11, 0.0, 0.7] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     # first arc.
     dx = -0.18; dz = 0.0756; dr = -0.5236; dp = -0.8
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
@@ -78,9 +82,27 @@ def triangle_on_sphere(bot):
     dx = 0.16; dz = -0.0756; dr = -0.8; dp = 0.8
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # return to home position.
-    last_pos = [0.1, 0.0, 0.3, 0.0, 0.0] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.1, 0.0, 0.3, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
 
+
+def triangle_on_small_sphere(bot):
+    print("Running TRIANGLE ON SMALL SPHERE monotonic routine.")
+    # set starting pose.
+    pos = [0.34, 0.0, 0.08, 0.0, 0.7] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
+    # first arc.
+    dx = -0.11; dz = 0.038; dr = -0.3; dp = -0.8
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # across.
+    dx = 0.0; dz = 0.0; dr = 0.6; dp = 0
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # back down.
+    dx = 0.1; dz = -0.038; dr = -0.3; dp = 0.8
+    bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # return to home position.
+    pos = [0.1, 0.0, 0.3, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
 
 
 def triangle_on_sphere_geodesic(bot):
@@ -91,19 +113,19 @@ def triangle_on_sphere_geodesic(bot):
     # first arc.
     bot.arm.set_ee_geodesic_trajectory((-0.19, 0.0, 0.0756, -0.5236, -0.8), C, R, PEN_OFFSET)
     # across.
-    bot.arm.set_ee_geodesic_trajectory((0.0, 0.0, 0.0, 1.05, 0.0), C, R, PEN_OFFSET)
+    # bot.arm.set_ee_geodesic_trajectory((0.0, 0.0, 0.0, 1.05, 0.0), C, R, PEN_OFFSET)
     # back down.
-    bot.arm.set_ee_geodesic_trajectory((0.15, 0.0, -0.0756, -0.5236, 0.8), C, R, PEN_OFFSET)
+    # bot.arm.set_ee_geodesic_trajectory((0.15, 0.0, -0.0756, -0.5236, 0.8), C, R, PEN_OFFSET)
     # return to home position.
-    last_pos = [0.2, 0.0, 0.2, 0.0, 0.0] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.1, 0.0, 0.3, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     
 
 def square_on_paper(bot):
     print("Running SQUARE ON PAPER routine.")
     # set starting pose (bottom left corner).
-    last_pos = [0.35, 0.0, 0.08, 0.0, 0.0] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.35, 0.0, 0.08, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     # bottom edge.
     dx = 0.0; dz = 0.0; dp = 0.0; dr = 0.5
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
@@ -117,16 +139,16 @@ def square_on_paper(bot):
     dx = -0.1; dz = 0.0; dp = -0.01; dr = 0.0
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # return to home position.
-    last_pos = [0.35, 0.0, 0.2, 0.0, 0.0] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.35, 0.0, 0.2, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     
 
 
 def diamond_on_paper(bot):
     print("Running DIAMOND ON PAPER routine.")
     # set starting pose (bottom center).
-    last_pos = [0.35, 0.0, 0.14, 0, 0.0] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.35, 0.0, 0.14, 0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     # down
     dx = 0.0; dz = -0.05; dp = 0.0; dr = 0.0
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
@@ -143,8 +165,8 @@ def diamond_on_paper(bot):
     dx = -0.05; dz = 0.01; dp = -0.01; dr = -0.7
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # return to home position.
-    last_pos = [0.2, 0.0, 0.2, 0.0, 0.0] # base of main arc
-    bot.arm.set_ee_pose_components(x=last_pos[0], y=last_pos[1], z=last_pos[2], roll=last_pos[3], pitch=last_pos[4])
+    pos = [0.2, 0.0, 0.2, 0.0, 0.0] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     
 
 def main():
@@ -156,7 +178,8 @@ def main():
                  1 : triangle_on_sphere,
                  2 : triangle_on_sphere_geodesic,
                  3 : square_on_paper,
-                 4 : diamond_on_paper}
+                 4 : diamond_on_paper,
+                 5 : triangle_on_small_sphere}
 
     mode = 0
     try:
