@@ -103,12 +103,12 @@
                 break
             # Interpolate arc between points.
             #  - interpolate straight line.
-            sl_pos = [sl_pos[i]+inc*D[i] for i in range(3)]
+            sl_pos = [sl_pos[j]+inc*D[j] for j in range(3)]
             print("Straight line interpolated point is "+str(sl_pos))
             #  - find unit vector from center to this point.
-            vec = [sl_pos[i]-C[i] for i in range(3)]; 
+            vec = [sl_pos[j]-C[j] for j in range(3)]; 
             # print("Vec is "+str(vec))
-            vec = vec / sum([vec[i]**2 for i in range(3)])**(1/2)
+            vec = vec / sum([vec[j]**2 for j in range(3)])**(1/2)
             print("Unit vec is "+str(vec))
             #  - project distance to R and set this position.
             T_yb[:3,3] = C + vec*R
