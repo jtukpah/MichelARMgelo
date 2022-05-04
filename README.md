@@ -33,6 +33,11 @@ Add a line near the bottom of your `.bashrc` to source this repository automatic
  - You may see a similar line containing `devel` rather than `devel_isolated`. You can remove this line.
  - Restart your terminal or run `source ~/.bashrc` to ensure this is updated.
 
+## Adding Our Modifications to Interbotix Code
+We created modified versions of some functions that allow us to control the arm in ways impossible with the existing function set. Our trajectory scripts rely on these functions existing in your interbotix workspace. Copy the contents of `COPY_ME/new_arm_functions.py` to the bottom of `~/interbotix_ws/src/interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/arm.py`. Ensure the indentation is correct for these functions to be included in the InterbotixArmXSInterface class.
+
+Next, we need to replace the default URDF with our modified version that includes the pen attachment for the end effector. Copy the file `COPY_ME/px150.urdf.xacro` to `~/interbotix_ws/src/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/px150.urdf.xacro`, replacing the existing file. If you'll be using the arm for anything other than our project, you should first make a backup copy of the original so that you can substitute it back later.
+
 ## Running Our Scripts to Control the Arm
 Ensure the arm is connected to power and to your machine. Start it up to receive control commands by running
 
@@ -104,7 +109,7 @@ This section details installation and some functionality of the PincherX 150 arm
 ## Important codewords/keywords
 Robot Model: px150
 
-The following commands are how to create the interbotix workspace on you machine:
+The following commands are how to create the interbotix workspace on your machine:
 
 * `$ sudo apt install curl`
 * `$ curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh`

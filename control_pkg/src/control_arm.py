@@ -169,6 +169,24 @@ def diamond_on_paper(bot):
     go_home(bot)
     
 
+def triangle_on_inner_sphere(bot):
+    print("Running TRIANGLE ON INNER SPHERE monotonic routine.")
+    # set starting pose.
+    pos = [0.28, 0.0, 0.06, 0.0, 0.5] # base of main arc
+    bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
+    # first arc.
+    dx = -0.17; dz = 0.17; dr = 0.0; dp = 0.6
+    bot.arm.set_ee_inner_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # # across.
+    # dx = 0.0; dz = 0.0; dr = 1.05; dp = 0
+    # bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # # back down.
+    # dx = 0.16; dz = -0.0756; dr = -0.5; dp = 0.8
+    # bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
+    # return to home position.
+    go_home(bot)
+
+
 def main():
     # define the arm object.
     bot = InterbotixManipulatorXS("px150", "arm", "gripper")
@@ -179,7 +197,8 @@ def main():
                  2 : triangle_on_sphere_geodesic,
                  3 : square_on_paper,
                  4 : diamond_on_paper,
-                 5 : triangle_on_small_sphere}
+                 5 : triangle_on_small_sphere,
+                 6 : triangle_on_inner_sphere}
 
     mode = 0
     try:
