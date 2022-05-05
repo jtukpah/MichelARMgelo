@@ -4,7 +4,6 @@
 
 import rospy
 from std_msgs.msg import Float32MultiArray
-from geometry_msgs.msg import Vector3
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 import rospkg
 from math import sin, cos
@@ -23,11 +22,27 @@ def command_arm_relative_arc(msg):
     # don't start until constraints have been set.
     while constraints is None:
         rospy.sleep(0.05)
-    # ensure command is within constraints.
     dx = msg.data[0];  dz = msg.data[1]; dr = msg.data[2]; dp = msg.data[3]
     try:
         # send this command to the robot.
-        bot.arm.set_ee_arc_trajectory(x=dx, z=dz, pitch=dp, roll=dr)
+        bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, constraints["PEN_OFFSET"])
+        rospy.loginfo("Commanding relative arc motion " + str(msg.data))
+    except:
+        rospy.logerr("Cannot make relative arc motion " + str(msg.data) + " from current position.")
+
+
+def command_arm_relative_arc_inner(msg):
+    """
+    Command the arm to make this motion relative to its current position.
+    @param data. Float32MultiArray message: [dx,dz,dr,dp]
+    """
+    # don't start until constraints have been set.
+    while constraints is None:
+        rospy.sleep(0.05)
+    dx = msg.data[0];  dz = msg.data[1]; dr = msg.data[2]; dp = msg.data[3]
+    try:
+        # send this command to the robot.
+        bot.arm.set_ee_inner_arc_trajectory(dx, dz, dr, dp, constraints["PEN_OFFSET"])
         rospy.loginfo("Commanding relative arc motion " + str(msg.data))
     except:
         rospy.logerr("Cannot make relative arc motion " + str(msg.data) + " from current position.")
@@ -37,36 +52,38 @@ def command_arm_cartesian(msg):
     """
     Receive a single cartesian point in a trajectory.
     Command the arm to go to this point, w/in constraints.
-    @param data. Vector3 message.
+    @param data. Float32MultiArray message with (x,y,z,r,p).
     """
     # don't start until constraints have been set.
     while constraints is None:
         rospy.sleep(0.05)
     # ensure command is within constraints.
-    x = min(max(msg.x, constraints["X_MIN"]), constraints["X_MAX"])
-    y = min(max(msg.y, constraints["Y_MIN"]), constraints["Y_MAX"])
-    z = min(max(msg.z, constraints["Z_MIN"]), constraints["Z_MAX"])
+    x = min(max(msg.data[0], constraints["X_MIN"]), constraints["X_MAX"])
+    y = min(max(msg.data[1], constraints["Y_MIN"]), constraints["Y_MAX"])
+    z = min(max(msg.data[2], constraints["Z_MIN"]), constraints["Z_MAX"])
+    r = msg.data[3]
+    p = msg.data[4]
     try:
         # send this command to the robot.
-        bot.arm.set_ee_pose_components(x=x, y=y, z=z)
-        rospy.loginfo("Travelling to cartesian " + str([x,y,z]))
+        bot.arm.set_ee_pose_components(x, y, z, r, p)
+        rospy.loginfo("Travelling to cartesian " + str([x,y,z,r,p]))
     except:
-        rospy.logerr("Cannot travel to cartesian " + str([x,y,z]) + " from current position.")
+        rospy.logerr("Cannot travel to cartesian " + str([x,y,z,r,p]) + " from current position.")
 
 
 def command_arm_polar(msg):
     """
     Receive a single polar point in a trajectory.
     Command the arm to go to this point, w/in constraints.
-    @param data. Vector3 message with (r,theta,z).
+    @param data. Float32MultiArray message with (r,theta,z).
     """
     # don't start until constraints have been set.
     while constraints is None:
         rospy.sleep(0.05)
     # ensure command is within constraints.
-    r = min(max(msg.x, constraints["R_MIN"]), constraints["R_MAX"])
-    theta = min(max(msg.y, constraints["THETA_MIN"]), constraints["THETA_MAX"])
-    z = min(max(msg.z, constraints["Z_MIN"]), constraints["Z_MAX"])
+    r = min(max(msg.data[0], constraints["R_MIN"]), constraints["R_MAX"])
+    theta = min(max(msg.data[1], constraints["THETA_MIN"]), constraints["THETA_MAX"])
+    z = min(max(msg.data[2], constraints["Z_MIN"]), constraints["Z_MAX"])
     # convert polar to cartesian.
     x = r * cos(theta)
     y = r * sin(theta)
@@ -115,11 +132,12 @@ def main():
     
     # subscribe to trajectory points.
     # cartesian:
-    rospy.Subscriber("/traj/point/cartesian", Vector3, command_arm_cartesian)
+    rospy.Subscriber("/traj/point/cartesian", Float32MultiArray, command_arm_cartesian)
     # polar:
-    rospy.Subscriber("/traj/point/polar", Vector3, command_arm_polar)
-    # relative arc:
-    rospy.Subscriber("/traj/point/relative", Float32MultiArray, command_arm_relative_arc)
+    rospy.Subscriber("/traj/point/polar", Float32MultiArray, command_arm_polar)
+    # relative arcs:
+    rospy.Subscriber("/traj/point/arc_outer", Float32MultiArray, command_arm_relative_arc)
+    rospy.Subscriber("/traj/point/arc_inner", Float32MultiArray, command_arm_relative_arc_inner)
 
     # pump callbacks.
     rospy.spin()

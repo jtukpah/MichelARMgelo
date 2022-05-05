@@ -80,9 +80,11 @@ def triangle_on_sphere(bot):
     bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
     # first arc.
     dx = -0.18; dz = 0.0756; dr = -0.5236; dp = -0.8
+    dr = -0.7
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # across.
     dx = 0.0; dz = 0.0; dr = 1.05; dp = 0
+    dr = 1.4
     bot.arm.set_ee_arc_trajectory(dx, dz, dr, dp, PEN_OFFSET)
     # back down.
     dx = 0.16; dz = -0.0756; dr = -0.8; dp = 0.8
@@ -111,6 +113,7 @@ def triangle_on_small_sphere(bot):
 
 def triangle_on_sphere_geodesic(bot):
     print("Running TRIANGLE ON SPHERE geodesic routine.")
+    print("WARNING: this does not work.")
     # set starting pose.
     pos = [0.4, 0.0, 0.1, 0.0, 0.7] # base of main arc
     bot.arm.set_ee_pose_components(x=pos[0], y=pos[1], z=pos[2], roll=pos[3], pitch=pos[4])
