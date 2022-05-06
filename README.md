@@ -43,7 +43,7 @@ Ensure the arm is connected to power and to your machine. Start it up to receive
 
     roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=px150
 
-For testing and for simple maneuvers, we've made some simple python scripts that are quick and easy to run. In a new terminal, run
+For testing and for simple maneuvers, we've made some python scripts that are quick and easy to run. In a new terminal, run
 
     cd ~/interbotix_ws/src/MichelARMgelo
     python3 control_pkg/src/control_arm.py <MODE>
@@ -86,12 +86,7 @@ For our full project, start up all our custom nodes. In two terminals, run the f
     roslaunch control_pkg control_arm.launch mode:=<MODE>
     roslaunch tag_detection_pkg tag_detection.launch
 
-The `tag_detection_node` will use the camera to determine the position of the canvas relative to the arm's coordinate frame, and will also estimate the end effector's pose via the attached AprilTags; this is important for drawing smooth arcs on the surface of our spherical canvas. The `traj_processing_node` will read or generate trajectories, and publish them one step at a time. The `control_node` subscribes to these trajectory points, ensures they fit within our constraints, and sends the actual commands to the robot to move. Here `<MODE>` is a string that specifies what sorts of trajectories will be sent to the arm to perform. It can be one of:
- - `file`: execute the trajectory in `control_pkg/trajectories/traj1.csv`.
- - `random`: send a random position within constraints on a loop.
- - `circles`: draw circles of random size in random locations on a loop.
- - `lines`: draw lines at random on a loop.
- - `forward`: forward trajectories published from elsewhere. (not yet implemented)
+The `tag_detection_node` will use the camera to determine the position of the canvas relative to the arm's coordinate frame, and will also estimate the end effector's pose via the attached AprilTags; this is important for drawing smooth arcs on the surface of our spherical canvas. The `traj_processing_node` will read or generate trajectories, and publish them one step at a time. The `control_node` subscribes to these trajectory points, ensures they fit within our constraints, and sends the actual commands to the robot to move. Here `<MODE>` is an integer that specifies what sorts of trajectories will be sent to the arm to perform. Check the contents of `control_pkg/src/traj_processing_node.py` to see what all the possible options are.
 
 Constraints can be edited in `control_pkg/config/constraints.txt`.
 
